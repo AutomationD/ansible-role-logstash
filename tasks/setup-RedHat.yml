@@ -13,7 +13,7 @@
 
 - name: Install Logstash.
   yum:
-    pkg: logstash
+    pkg: "logstash-{% if logstash_version[0] == '2' %}1:{% endif %}{{logstash_version}}*"
     state: installed
   when: not ansible_check_mode
 
