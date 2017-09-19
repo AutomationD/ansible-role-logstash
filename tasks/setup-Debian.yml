@@ -29,7 +29,7 @@
 
 - name: Install Logstash.
   apt:
-    pkg: logstash
+    pkg: "logstash=1:{{logstash_version}}*"
     state: present
   when: not ansible_check_mode
 
