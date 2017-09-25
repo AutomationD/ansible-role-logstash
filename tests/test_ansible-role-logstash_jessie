@@ -25,7 +25,7 @@ test_check_mode_succeed() {
 }
 
 test_custom_filters() {
-  assert "diff tmpl/20-myApp.conf /etc/logstash/conf.d/20-myApp.conf" "custom filters are missing"
+  assert "diff templates/etc/logstash/conf.d/20-myApp.conf /etc/logstash/conf.d/20-myApp.conf" "custom filters are missing"
 }
 
 run_ansible() {
@@ -36,7 +36,7 @@ setup_suite() {
 
   mkdir /tmp/ansible/group_vars -p
 
-  cp tmpl/20-myApp.conf /tmp/ansible/
+  [ ! -d /tmp/ansible/templates ] && cp -r templates/ /tmp/ansible/
 
   cat << EOF > /tmp/ansible/playbook.yml
 - hosts: all
@@ -62,7 +62,10 @@ setup_suite() {
       when: ansible_os_family == 'RedHat'
   roles:
     - role: ansible-role-logstash
-      logstash_filter_files: "{{playbook_dir}}/20-myApp.conf"
+      logstash_configuration_files:
+        - etc/logstash/conf.d/01-beats-input.conf
+        - "{{playbook_dir}}/templates/etc/logstash/conf.d/20-myApp.conf"
+        - etc/logstash/conf.d/30-elasticsearch-output.conf
 EOF
 
 [ -f logstash_version ] && echo '      logstash_version: "'$(cat logstash_version)'"' >> /tmp/ansible/playbook.yml

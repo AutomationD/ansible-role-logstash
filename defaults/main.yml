@@ -5,15 +5,13 @@ logstash_listen_port_beats: 5044
 logstash_version: "5.6.0"
 
 logstash_configuration_files:
-  - 01-beats-input.conf
-  - 30-elasticsearch-output.conf
-
-logstash_filter_files:
-  - filters/10-syslog.conf
-  - filters/11-nginx.conf
-  - filters/12-apache.conf
-  - filters/14-solr.conf
-  - filters/15-drupal.conf
+  - etc/logstash/conf.d/01-beats-input.conf
+  - etc/logstash/conf.d/10-syslog.conf
+  - etc/logstash/conf.d/11-nginx.conf
+  - etc/logstash/conf.d/12-apache.conf
+  - etc/logstash/conf.d/14-solr.conf
+  - etc/logstash/conf.d/15-drupal.conf
+  - etc/logstash/conf.d/30-elasticsearch-output.conf
 
 logstash_listen_port_lumberjack: 5000
 
