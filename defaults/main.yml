@@ -9,11 +9,11 @@ logstash_configuration_files:
   - 30-elasticsearch-output.conf
 
 logstash_filter_files:
-  - 10-syslog.conf
-  - 11-nginx.conf
-  - 12-apache.conf
-  - 14-solr.conf
-  - 15-drupal.conf
+  - filters/10-syslog.conf
+  - filters/11-nginx.conf
+  - filters/12-apache.conf
+  - filters/14-solr.conf
+  - filters/15-drupal.conf
 
 logstash_listen_port_lumberjack: 5000
 
