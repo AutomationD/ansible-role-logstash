@@ -36,28 +36,22 @@ The hosts where Logstash should ship logs to Elasticsearch.
 The version to install (tested: 2.3 and 5.6)
 
     logstash_configuration_files:
-      - 01-beats-input.conf
-      - 30-elasticsearch-output.conf
+      - etc/logstash/conf.d/01-beats-input.conf
+      - etc/logstash/conf.d/10-syslog.conf
+      - etc/logstash/conf.d/11-nginx.conf
+      - etc/logstash/conf.d/12-apache.conf
+      - etc/logstash/conf.d/14-solr.conf
+      - etc/logstash/conf.d/15-drupal.conf
+      - "{{playbook_dir}}/path/to/16-another-filter.conf"
+      - etc/logstash/conf.d/30-elasticsearch-output.conf
 
-    logstash_filter_files:
-      - 10-syslog.conf
-      - 11-nginx.conf
-      - 12-apache.conf
-      - 14-solr.conf
-      - 15-drupal.conf
-        logstash_elasticsearch_host: localhost
-
-List of inputs/outputs (configuration files) and filter files to install. By
+List of inputs/filters/outputs (configuration files) to install. By
 default the lumberjack input/output and variable filter files are installed.
-You can specify your own configuration files by placing input/output files in
-your own `templates` directory, and filters in your own `files` directory. Then
-create your own list in the `vars/main.yml` directory, and `vars_files` in
-your wrapper role, and include this role to deploy Logstash with your own
-configuration. See `Example Playbook` below.
+You can specify your own configuration files in another location (see example with playbook_dir variable).
 
-    logstash_elasticsearch_host: localhost
+    logstash_elasticsearch_hosts: [ "http://localhost:9200"]
 
-Default major version of Logstash to install.
+Elasticsearch hosts list
 
     logstash_ssl_dir: /etc/pki/logstash
     logstash_ssl_certificate_file: logstash-forwarder-example.crt
