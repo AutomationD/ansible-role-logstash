@@ -3,7 +3,7 @@
   file:
     path: "{{ logstash_ssl_dir }}"
     state: directory
-  when: logstash_ssl_key_file
+  when: logstash_ssl_key_file is defined
 
 - name: Copy SSL key and cert for logstash-forwarder.
   copy:
@@ -14,4 +14,22 @@
     - "{{ logstash_ssl_key_file }}"
     - "{{ logstash_ssl_certificate_file }}"
   notify: restart logstash
-  when: logstash_ssl_key_file
+  when: logstash_ssl_key_file is defined and logstash_ssl_key is not defined and logstash_ssl_certificate is not defined
+
+
+- name: Copy Logstash SSL key
+  copy:
+    content: "{{ logstash_ssl_key }}"
+    dest: "{{ logstash_ssl_dir }}/{{ logstash_ssl_key_file }}"
+    mode: 0644
+  notify: restart logstash
+  when: logstash_ssl_key is defined
+
+
+- name: Copy Logstash SSL Certificate
+  copy:
+    content: "{{ logstash_ssl_certificate }}"
+    dest: "{{ logstash_ssl_dir }}/{{ logstash_ssl_certificate_file }}"
+    mode: 0644
+  notify: restart logstash
+  when: logstash_ssl_key is defined

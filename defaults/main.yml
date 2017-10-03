@@ -3,6 +3,11 @@
 logstash_listen_port_beats: 5044
 
 logstash_version: "5.6.0"
+logstash_heap_size: 1g
+
+manage_plugins: true
+
+logstash_configuration_dir: /etc/logstash/
 
 logstash_configuration_files:
   - 01-beats-input.conf
@@ -26,6 +31,9 @@ logstash_monitor_local_syslog: true
 logstash_ssl_dir: /etc/pki/logstash
 logstash_ssl_certificate_file: ""
 logstash_ssl_key_file: ""
+
+logstash_ssl_key: ""
+logstash_ssl_certificate: ""
 
 logstash_enabled_on_boot: yes
 

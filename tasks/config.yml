@@ -2,17 +2,27 @@
 - name: Create Logstash configuration files.
   template:
     src: "{{ item }}.j2"
-    dest: "/etc/logstash/conf.d/{{ item }}"
+    dest: "{{ logstash_configuration_dir }}/conf.d/{{ item | basename }}"
     owner: root
     group: root
     mode: 0644
   with_items: "{{ logstash_configuration_files | default([]) }}"
   notify: restart logstash
 
+- name: Copy jvm.options File for Instance
+  template:
+    src: jvm.options.j2
+    dest: "{{ logstash_configuration_dir }}/jvm.options"
+    owner: root
+    group: root
+    mode: 0644
+    force: yes
+  notify: restart logstash
+
 - name: Create Logstash filters.
   copy:
     src: "filters/{{ item }}"
-    dest: "/etc/logstash/conf.d/{{ item }}"
+    dest: "/etc/logstash/conf.d/{{ item | basename }}"
     owner: root
     group: root
     mode: 0644

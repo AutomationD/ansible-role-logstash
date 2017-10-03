@@ -12,11 +12,12 @@
     chdir={{ logstash_dir }}
   register: logstash_plugins_list
   changed_when: false
+  when: manage_plugins
 
 - name: Install configured plugins.
   command: >
     ./bin/logstash-plugin install {{ item }}
     chdir={{ logstash_dir }}
   with_items: "{{ logstash_install_plugins }}"
-  when: "logstash_plugins_list is defined and not logstash_plugins_list | skipped and item not in logstash_plugins_list.stdout"
+  when: "logstash_plugins_list is defined and manage_plugins and not logstash_plugins_list | skipped and item not in logstash_plugins_list.stdout"
   notify: restart logstash
